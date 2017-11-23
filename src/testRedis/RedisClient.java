@@ -52,8 +52,6 @@ public class RedisClient {
 	public RedisClient() {
 		initialPool();
 		initialShardedPool();
-		shardedJedis = shardedJedisPool.getResource();
-		jedis = jedisPool.getResource();
 	}
 
 	/**
@@ -94,25 +92,25 @@ public class RedisClient {
 	}
 
 	public void show() {
-//		SomeOperate.KeyOperate(jedis,shardedJedis);
-//		SomeOperate.StringOperate(jedis,shardedJedis);
-//		SomeOperate.ListOperate(jedis,shardedJedis);
-//		SomeOperate.SetOperate(jedis,shardedJedis);
-//		SomeOperate.SortedSetOperate(jedis,shardedJedis);
-		SomeOperate.HashOperate(jedis,shardedJedis);
 		// jedis获取后一定要关闭，这和我们使用数据库连接池是一样的，
 		// 放在finally块中保证jedis的关闭.
 		// Jedis3.0后，returnResource就不使用了，建议用close替换
 		try {
 			jedis = jedisPool.getResource();
 			shardedJedis = shardedJedisPool.getResource();
+//			SomeOperate.KeyOperate(jedis,shardedJedis);
+//			SomeOperate.StringOperate(jedis,shardedJedis);
+//			SomeOperate.ListOperate(jedis,shardedJedis);
+//			SomeOperate.SetOperate(jedis,shardedJedis);
+//			SomeOperate.SortedSetOperate(jedis,shardedJedis);
+			SomeOperate.HashOperate(jedis,shardedJedis);
 		} catch (Exception e) {
-			jedisPool.returnBrokenResource(jedis);
+			jedisPool.returnBrokenResource(jedis);// 当出现异常时 要销毁对象
 			shardedJedisPool.returnBrokenResource(shardedJedis);
 			e.printStackTrace();
 		} finally {
 			if (null != jedisPool && null != shardedJedisPool) {
-				jedisPool.returnResource(jedis);
+				jedisPool.returnResource(jedis);//将这个Jedis实例归还给JedisPool。
 				shardedJedisPool.returnResource(shardedJedis);
 			}
 		}
