@@ -7,4 +7,6 @@ Version 1：Jedis
 
 2017/11/22 version 1.1 主要实现了各种数据类型的一些常用操作，包括jedis的一些常用命令；尝试使用连接池，包括单机的JedisPool，分布式的ShardedJedisPool，并进行相关操作。
 
+2017/11/23 version 1.2 修改了jedis释放的逻辑，不能不管什么情况都一律使用returnResource()。当然，jedis 3.0版本的话，直接用close()方法即可。
+
 Version 2：Redission
