@@ -1,9 +1,11 @@
 package testRedis;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -87,7 +89,7 @@ public class RedisClient {
 //		JedisShardInfo infoB = new JedisShardInfo(ADDR, PORT2);
 //		infoB.setPassword("redis");
 //		shards.add(infoB);
-
+//		shards = Arrays.asList(infoA,infoB);
 		shardedJedisPool = new ShardedJedisPool(config, shards);
 	}
 
@@ -98,7 +100,22 @@ public class RedisClient {
 //		SomeOperate.SetOperate(jedis,shardedJedis);
 //		SomeOperate.SortedSetOperate(jedis,shardedJedis);
 		SomeOperate.HashOperate(jedis,shardedJedis);
-		jedisPool.returnResource(jedis);// 释放Jedis资源
-		shardedJedisPool.returnResource(shardedJedis);
+		// jedis获取后一定要关闭，这和我们使用数据库连接池是一样的，
+		// 放在finally块中保证jedis的关闭.
+		// Jedis3.0后，returnResource就不使用了，建议用close替换
+		try {
+			jedis = jedisPool.getResource();
+			shardedJedis = shardedJedisPool.getResource();
+		} catch (Exception e) {
+			jedisPool.returnBrokenResource(jedis);
+			shardedJedisPool.returnBrokenResource(shardedJedis);
+			e.printStackTrace();
+		} finally {
+			if (null != jedisPool && null != shardedJedisPool) {
+				jedisPool.returnResource(jedis);
+				shardedJedisPool.returnResource(shardedJedis);
+			}
+		}
+
 	}
 }
