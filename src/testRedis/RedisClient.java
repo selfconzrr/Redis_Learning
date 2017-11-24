@@ -98,11 +98,11 @@ public class RedisClient {
 		try {
 			jedis = jedisPool.getResource();
 			shardedJedis = shardedJedisPool.getResource();
-//			SomeOperate.KeyOperate(jedis,shardedJedis);
-//			SomeOperate.StringOperate(jedis,shardedJedis);
-//			SomeOperate.ListOperate(jedis,shardedJedis);
-//			SomeOperate.SetOperate(jedis,shardedJedis);
-//			SomeOperate.SortedSetOperate(jedis,shardedJedis);
+			SomeOperate.KeyOperate(jedis,shardedJedis);
+			SomeOperate.StringOperate(jedis,shardedJedis);
+			SomeOperate.ListOperate(jedis,shardedJedis);
+			SomeOperate.SetOperate(jedis,shardedJedis);
+			SomeOperate.SortedSetOperate(jedis,shardedJedis);
 			SomeOperate.HashOperate(jedis,shardedJedis);
 		} catch (Exception e) {
 			jedisPool.returnBrokenResource(jedis);// 当出现异常时 要销毁对象

@@ -19,10 +19,6 @@ public class Infrastructure {
 //		String string = jedis.get("key7");
 //		String string1 = jedis.get("key6");
 //		System.out.println(string + " " + string1);
-		
-		/*
-		 * jedisPool
-		 */
 		new RedisClient().show();
 	}
 	// 然后去Ubuntu下，输入命令：get key6
