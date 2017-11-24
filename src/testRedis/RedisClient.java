@@ -45,7 +45,9 @@ public class RedisClient {
 	private static int TIMEOUT = 10000;
 
 	private Jedis jedis;
-	private JedisPool jedisPool;// 非切片连接池，单端口，单机使用
+	// 注意Jedis对象并不是线程安全的，在多线程下使用同一个Jedis对象会出现并发问题。
+	// 为了避免每次使用Jedis对象时都需要重新构建，Jedis提供了JedisPool
+	private JedisPool jedisPool;
 	private ShardedJedis shardedJedis;
 	private ShardedJedisPool shardedJedisPool;// shard切片连接池，多端口，分布式使用
 
@@ -100,7 +102,7 @@ public class RedisClient {
 		 * 测试单服务器 2017/11/22
 		 */
 		try {
-			jedis = jedisPool.getResource();
+			jedis = jedisPool.getResource();//初始化Jedis对象并不会与Redis Server建立连接，连接发生在第一次执行命令时。
 			shardedJedis = shardedJedisPool.getResource();
 			SomeOperate.KeyOperate(jedis, shardedJedis);
 			SomeOperate.StringOperate(jedis, shardedJedis);

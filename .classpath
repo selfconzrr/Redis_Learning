@@ -5,5 +5,7 @@
 	<classpathentry kind="lib" path="lib/jedis-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-pool-1.6.jar"/>
 	<classpathentry kind="lib" path="lib/jedis-2.9.0.jar" sourcepath="C:/Users/Administrator/.m2/repository/redis/clients/jedis/2.9.0/jedis-2.9.0-sources.jar"/>
+	<classpathentry kind="lib" path="lib/redisson-3.3.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
