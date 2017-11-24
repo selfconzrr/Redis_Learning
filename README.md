@@ -10,3 +10,5 @@ Version 1：Jedis
 2017/11/23 version 1.2 修改了jedis释放的逻辑，不能不管什么情况都一律使用returnResource()。当然，jedis 3.0版本的话，直接用close()方法即可。
 
 Version 2：Redission
+
+2017/11/24 version 2.0 主要实现了Redission客户端下的一些分布式对象、分布式集合的简单操作，以及Redission和服务器连接的配置。
