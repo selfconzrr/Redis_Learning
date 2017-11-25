@@ -1,13 +1,48 @@
 package testRedis;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.Response;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.SortingParams;
 
 public class SomeOperate {
+
+	/*
+	 * 2017/11/25 新增pipeline及redis的事务特性
+	 */
+	public static void PipelineTransactions(Jedis jedis, JedisPool jedisPool) {
+		try {
+			Pipeline pipeLine = jedis.pipelined();
+			pipeLine.set("value", "100");
+			pipeLine.watch("value");
+			pipeLine.multi();// 开启事务
+			pipeLine.incrBy("value", 10);// 递增10
+			// 对错误的数据类型使用了不支持的操作
+			pipeLine.lpush("value", "error");//执行错误的操作lpush
+			pipeLine.incrBy("value", 10);// 再次递增10
+			// 执行exec命令,获取"未来"的返回结果
+			Response<List<Object>> listResponse = pipeLine.exec();
+			pipeLine.sync();// 开启pipeling
+			List<Object> result = listResponse.get();
+			if (result != null && result.size() > 0) {
+				for (Object o : result)
+					System.out.println(o.toString());
+			}
+			// 虽然事务中第二个操作失败了,但不影响value的值
+			System.out.println("\nvalue is " + jedis.get("value"));
+		} catch (Exception e) {
+			// jedisPool.returnBrokenResource(jedis);
+			e.printStackTrace();
+		} finally {
+			jedisPool.returnResource(jedis);
+		}
+	}
 
 	/*
 	 * 常用的键操作
@@ -374,7 +409,7 @@ public class SomeOperate {
 				+ shardedJedis.hincrBy("hashs", "key004", 100l));
 		System.out.println("hashs中的所有值：" + shardedJedis.hvals("hashs"));
 		System.out.println();
-		
+
 		System.out.println("=============查=============");
 		System.out.println("判断key003是否存在："
 				+ shardedJedis.hexists("hashs", "key003"));
@@ -387,7 +422,8 @@ public class SomeOperate {
 		System.out.println("获取hashs中所有的key：" + shardedJedis.hkeys("hashs"));
 		System.out.println("获取hashs中所有的value：" + shardedJedis.hvals("hashs"));
 		// hgetAll(key)：返回名称为key的hash中所有的键（field）及其对应的value
-		System.out.println("获取hashs中所有的key-value：" + shardedJedis.hgetAll("hashs"));
+		System.out.println("获取hashs中所有的key-value："
+				+ shardedJedis.hgetAll("hashs"));
 		System.out.println();
 	}
 }
