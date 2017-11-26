@@ -3,6 +3,9 @@ package testRedis;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Logger;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -12,6 +15,37 @@ import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.SortingParams;
 
 public class SomeOperate {
+
+	/*
+	 * 2017/11/26 测试普通模式与PipeLine模式的效率： 测试方法：向redis中插入10000组数据
+	 */
+	public static void testPipeLineAndNormal(Jedis jedis)
+			throws InterruptedException {
+		Logger logger = Logger.getLogger("javasoft");
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < 10000; i++) {
+			jedis.set(String.valueOf(i), String.valueOf(i));
+		}
+		long end = System.currentTimeMillis();
+		logger.info("the total time is:" + (end - start));
+
+		Pipeline pipe = jedis.pipelined();// 先创建一个pipeline的链接对象
+		long start_pipe = System.currentTimeMillis();
+		for (int i = 0; i < 10000; i++) {
+			pipe.set(String.valueOf(i), String.valueOf(i));
+		}
+		pipe.sync();// 获取所有的response
+		long end_pipe = System.currentTimeMillis();
+		logger.info("the pipe total time is:" + (end_pipe - start_pipe));
+		
+		BlockingQueue<String> logQueue = new LinkedBlockingQueue<String>();
+		long begin = System.currentTimeMillis();
+		for (int i = 0; i < 10000; i++) {
+			logQueue.put("i=" + i);
+		}
+		long stop = System.currentTimeMillis();
+		logger.info("the BlockingQueue total time is:" + (stop - begin));
+	}
 
 	/*
 	 * 2017/11/25 新增pipeline及redis的事务特性
@@ -24,7 +58,7 @@ public class SomeOperate {
 			pipeLine.multi();// 开启事务
 			pipeLine.incrBy("value", 10);// 递增10
 			// 对错误的数据类型使用了不支持的操作
-			pipeLine.lpush("value", "error");//执行错误的操作lpush
+			// pipeLine.lpush("value", "error");//执行错误的操作lpush
 			pipeLine.incrBy("value", 10);// 再次递增10
 			// 执行exec命令,获取"未来"的返回结果
 			Response<List<Object>> listResponse = pipeLine.exec();
