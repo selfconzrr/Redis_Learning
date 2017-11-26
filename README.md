@@ -11,6 +11,8 @@ Version 1：Jedis
 
 2017/11/25 version 1.3 新增redis事务命令的简单测试。
 
+2017/11/26 version 1.4 对pipeline批量处理的性能进行了测试。
+
 Version 2：Redission
 
 2017/11/24 version 2.0 主要实现了Redission客户端下的一些分布式对象、分布式集合的简单操作，以及Redission和服务器连接的配置。
