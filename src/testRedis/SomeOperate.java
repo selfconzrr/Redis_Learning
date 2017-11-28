@@ -320,6 +320,8 @@ public class SomeOperate {
 				+ jedis.sadd("sets", "element003"));
 		System.out.println("向sets集合中加入元素element004："
 				+ jedis.sadd("sets", "element004"));
+		System.out.println("向sets集合中加入元素element001："
+				+ jedis.sadd("sets", "element001"));
 		System.out.println("查看sets集合中的所有元素:" + jedis.smembers("sets"));
 		System.out.println();
 

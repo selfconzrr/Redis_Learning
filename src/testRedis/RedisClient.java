@@ -104,12 +104,12 @@ public class RedisClient {
 		try {
 			jedis = jedisPool.getResource();//初始化Jedis对象并不会与Redis Server建立连接，连接发生在第一次执行命令时。
 			shardedJedis = shardedJedisPool.getResource();
-			SomeOperate.testPipeLineAndNormal(jedis);
+//			SomeOperate.testPipeLineAndNormal(jedis);
 //			SomeOperate.PipelineTransactions(jedis, jedisPool);
 //			SomeOperate.KeyOperate(jedis, shardedJedis);
 //			SomeOperate.StringOperate(jedis, shardedJedis);
 //			SomeOperate.ListOperate(jedis, shardedJedis);
-//			SomeOperate.SetOperate(jedis, shardedJedis);
+			SomeOperate.SetOperate(jedis, shardedJedis);
 //			SomeOperate.SortedSetOperate(jedis, shardedJedis);
 //			SomeOperate.HashOperate(jedis, shardedJedis);
 		} catch (Exception e) {
