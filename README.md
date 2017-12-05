@@ -1,6 +1,8 @@
 # Redis_Learning
 Redis Learning for Backend Development
 
+CSDN博客专栏：http://blog.csdn.net/column/details/18231.html
+
 Version 1：Jedis
 
 2017/11/20 version 1.0 主要实现了windows系统eclipse的java工程连接远程Ubuntu系统下的redis服务器，并实现简单的设置key-value同步更新。
