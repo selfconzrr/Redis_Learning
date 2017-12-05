@@ -112,6 +112,7 @@ public class RedisClient {
 			SomeOperate.SetOperate(jedis, shardedJedis);
 			SomeOperate.SortedSetOperate(jedis, shardedJedis);
 			SomeOperate.HashOperate(jedis, shardedJedis);
+//			SomeOperate.HyperLogLogOperate(jedis);// jedis 2.8.9以上版本才能运行
 		} catch (Exception e) {
 			//jedisPool.returnBrokenResource(jedis);// 当出现异常时 要销毁对象
 			shardedJedisPool.returnBrokenResource(shardedJedis);

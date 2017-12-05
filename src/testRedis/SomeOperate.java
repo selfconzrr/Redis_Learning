@@ -3,6 +3,7 @@ package testRedis;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
@@ -376,6 +377,8 @@ public class SomeOperate {
 
 	/*
 	 * 常用的SortedSet类型操作
+	 * 每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序
+	 * 集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)
 	 */
 	public static void SortedSetOperate(Jedis jedis, ShardedJedis shardedJedis) {
 		System.out.println("====================zset======================");
@@ -462,4 +465,13 @@ public class SomeOperate {
 				+ shardedJedis.hgetAll("hashs"));
 		System.out.println();
 	}
+	// 在jedis2.8.9版本以上即可运行，否则没有对应的方法。
+//	public static void HyperLogLogOperate(Jedis jedis){
+//		//HyperLogLog
+//		for(int i =0; i <10; i++)
+//		{
+//		System.out.println("pfadd :"+ jedis.pfadd("HyperLogLog", UUID.randomUUID().toString()));
+//		}
+//		System.out.println("pfcount :"+ jedis.pfcount("HyperLogLog"));
+//	}
 }
