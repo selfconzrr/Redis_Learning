@@ -17,6 +17,8 @@ Version 1：Jedis
 
 2017/11/28 version 1.5 增加了Redis发布/订阅功能的java实现，其中：RedisMsgPubSubListener监听器类，继承自JedisPubSub，并实现其抽象方法；TestSubscribe测试类用来订阅频道，TestPublish测试类用来向频道发布消息，先执行TestSubscribe，然后执行TestPublish。
 
+2017/11/28 version 1.6 增加了Redis2.8.9新支持的数据结构HyperLogLog的测试。详细解释见博客。
+
 Version 2：Redission
 
 2017/11/24 version 2.0 主要实现了Redission客户端下的一些分布式对象、分布式集合的简单操作，以及Redission和服务器连接的配置。
