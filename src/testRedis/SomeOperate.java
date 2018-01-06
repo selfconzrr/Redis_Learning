@@ -1,5 +1,6 @@
 package testRedis;
 
+import java.util.BitSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +19,39 @@ import redis.clients.jedis.SortingParams;
 public class SomeOperate {
 
 	/*
+	 * 2018/01/05 测试Redis Setbit命令
+	 * 用于对 key 所储存的字符串值，设置或清除指定偏移量上的位(bit)
+	 */
+	public static void SetBitOperate(Jedis jedis) {
+		System.out.println("==================setBit======================");
+		int oneDayActiveUser = uniqueCount(jedis, "play", "2018-01-06");
+		System.out.println("2018-01-06: 活跃用户为：" + oneDayActiveUser);
+	}
+
+	/*
+	 * 计算出一天的活跃用户数量
+	 */
+	public static int uniqueCount(Jedis jedis, String action, String date) {
+		String key = action + ":" + date;
+		System.out.println(key + " "+key.getBytes() + " " +jedis.get(key.getBytes()));
+		BitSet user = BitSet.valueOf(jedis.get(key.getBytes()));
+		return user.cardinality();// 返回该字符集被置为1的个数
+	}
+
+	/*
+	 * 计算某几天内活跃用户的数量（某一天活跃就算，所以是取并集），相比于用set来实现更省内存
+	 */
+	public static int allUniqueCount(Jedis jedis, String action, String... dates) {
+		BitSet all = new BitSet();
+		for (String date : dates) {
+			String key = action + ":" + date;
+			BitSet user = BitSet.valueOf(jedis.get(key.getBytes()));
+			all.or(user);
+		}
+		return all.cardinality();// 返回该字符集被置为1的个数
+	}
+
+	/*
 	 * 2017/11/26 测试普通模式与PipeLine模式的效率： 测试方法：向redis中插入10000组数据
 	 */
 	public static void testPipeLineAndNormal(Jedis jedis)
@@ -28,7 +62,7 @@ public class SomeOperate {
 			jedis.set(String.valueOf(i), String.valueOf(i));
 		}
 		long end = System.currentTimeMillis();
-		logger.info("the total time is:" + (end - start));
+		logger.info("the jedis total time is:" + (end - start));
 
 		Pipeline pipe = jedis.pipelined();// 先创建一个pipeline的链接对象
 		long start_pipe = System.currentTimeMillis();
@@ -191,6 +225,7 @@ public class SomeOperate {
 		System.out.println("清空库中所有数据：" + jedis.flushDB());
 
 		System.out.println("=============新增键值对时防止覆盖原先值============");
+		//setnx:如果key已经存在，返回0，nx是not exist的意思。
 		System.out.println("原先key301不存在时，新增key301："
 				+ shardedJedis.setnx("key301", "value301"));
 		System.out.println("原先key302不存在时，新增key302："
@@ -219,10 +254,13 @@ public class SomeOperate {
 		System.out.println("=============获取子串=============");
 		System.out.println("获取key302对应值中的子串："
 				+ shardedJedis.getrange("key302", 5, 7));
+		System.out.println("获取key302对应值中的子串："
+				+ shardedJedis.getrange("key302", -5, -1));// 字符串右面下标是从-1开始的
 	}
 
 	/*
 	 * 常用的List类型操作
+	 * 场景：LIST可以作为消息队列，LPUSH链表头作为生产者插入消息，RPOP作为消费者取得消息。
 	 */
 	public static void ListOperate(Jedis jedis, ShardedJedis shardedJedis) {
 
@@ -251,10 +289,10 @@ public class SomeOperate {
 				+ shardedJedis.lrange("stringlists", 0, -1));
 		System.out.println("所有元素-numberlists："
 				+ shardedJedis.lrange("numberlists", 0, -1));
-
 		System.out.println("=============删=============");
 		// lrem(key, count, value)：删除count个key的list中值为value的元素
-		// ，第二个参数为删除的个数,（有重复时）后add进去的值先被删，类似于出栈
+		// ，第二个参数为删除的个数,（有重复时）若count>0时按从头到尾的顺序删除，类似于出栈；
+		// 若count<0时，按从尾到头的顺序删除；count=0时，删除全部
 		System.out.println("成功删除指定元素个数-stringlists："
 				+ shardedJedis.lrem("stringlists", 2, "vector"));
 		System.out.println("删除指定元素之后-stringlists："
@@ -391,8 +429,11 @@ public class SomeOperate {
 				+ shardedJedis.zadd("zset", 8.0, "element002"));
 		System.out.println("zset中添加元素element003："
 				+ shardedJedis.zadd("zset", 2.0, "element003"));
+		//element004被设置了2次，那么将以最后一次的设置为准
 		System.out.println("zset中添加元素element004："
 				+ shardedJedis.zadd("zset", 3.0, "element004"));
+		System.out.println("zset中添加元素element004："
+				+ shardedJedis.zadd("zset", 1.0, "element004"));
 		System.out
 				.println("zset集合中的所有元素：" + shardedJedis.zrange("zset", 0, -1));// 按照权重值排序
 		System.out.println();
@@ -465,7 +506,7 @@ public class SomeOperate {
 				+ shardedJedis.hgetAll("hashs"));
 		System.out.println();
 	}
-	// 在jedis2.8.9版本以上即可运行，否则没有对应的方法。
+	// 在redis2.8.9版本以上即可运行，否则没有对应的方法。
 //	public static void HyperLogLogOperate(Jedis jedis){
 //		//HyperLogLog
 //		for(int i =0; i <10; i++)

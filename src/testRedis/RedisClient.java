@@ -104,15 +104,16 @@ public class RedisClient {
 		try {
 			jedis = jedisPool.getResource();//初始化Jedis对象并不会与Redis Server建立连接，连接发生在第一次执行命令时。
 			shardedJedis = shardedJedisPool.getResource();
+//			SomeOperate.SetBitOperate(jedis);// 有点问题
 			SomeOperate.testPipeLineAndNormal(jedis);
-			SomeOperate.PipelineTransactions(jedis, jedisPool);
-			SomeOperate.KeyOperate(jedis, shardedJedis);
-			SomeOperate.StringOperate(jedis, shardedJedis);
-			SomeOperate.ListOperate(jedis, shardedJedis);
-			SomeOperate.SetOperate(jedis, shardedJedis);
-			SomeOperate.SortedSetOperate(jedis, shardedJedis);
-			SomeOperate.HashOperate(jedis, shardedJedis);
-//			SomeOperate.HyperLogLogOperate(jedis);// jedis 2.8.9以上版本才能运行
+//			SomeOperate.PipelineTransactions(jedis, jedisPool);
+//			SomeOperate.KeyOperate(jedis, shardedJedis);
+//			SomeOperate.StringOperate(jedis, shardedJedis);
+//			SomeOperate.ListOperate(jedis, shardedJedis);
+//			SomeOperate.SetOperate(jedis, shardedJedis);
+//			SomeOperate.SortedSetOperate(jedis, shardedJedis);
+//			SomeOperate.HashOperate(jedis, shardedJedis);
+//			SomeOperate.HyperLogLogOperate(jedis);// redis 2.8.9以上版本才能运行
 		} catch (Exception e) {
 			//jedisPool.returnBrokenResource(jedis);// 当出现异常时 要销毁对象
 			shardedJedisPool.returnBrokenResource(shardedJedis);
