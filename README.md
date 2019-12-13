@@ -24,3 +24,29 @@ Version 1：Jedis
 Version 2：Redission
 
 2017/11/24 version 2.0 主要实现了Redission客户端下的一些分布式对象、分布式集合的简单操作，以及Redission和服务器连接的配置。
+
+> **------至所有正在努力奋斗的程序猿们！加油！！**
+有码走遍天下 无码寸步难行
+1024 - 梦想，永不止步!
+爱编程 不爱Bug
+爱加班 不爱黑眼圈
+固执 但不偏执
+疯狂 但不疯癫
+生活里的菜鸟
+工作中的大神
+身怀宝藏，一心憧憬星辰大海
+追求极致，目标始于高山之巅
+一群怀揣好奇，梦想改变世界的孩子
+一群追日逐浪，正在改变世界的极客
+你们用最美的语言，诠释着科技的力量
+你们用极速的创新，引领着时代的变迁
+
+<font color=#DC143C size=4 face="黑体">——乐于分享，共同进步，欢迎补充
+——Treat Warnings As Errors
+——Any comments greatly appreciated
+——Talking is cheap, show me the code
+——诚心欢迎各位交流讨论！QQ:1138517609
+——CSDN：https://blog.csdn.net/u011489043
+——简书：https://www.jianshu.com/u/4968682d58d1
+——GitHub：https://github.com/selfconzrr
+</font>
