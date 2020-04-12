@@ -26,15 +26,13 @@ Version 2：Redission
 2017/11/24 version 2.0 主要实现了Redission客户端下的一些分布式对象、分布式集合的简单操作，以及Redission和服务器连接的配置。
 
 如果您觉得写得还可以，那就来关注在下的微信公众号吧“张氏文画”，不光有新鲜的 LeetCode 题解（多种思路，包教包会，开拓思维），还有经典的文章及短视频和大家分享，谢谢大家的关注！！！
+
 ![qrcode_for_gh_671e52fa1e78_258.jpg](https://pic.leetcode-cn.com/fa6a229fc23d58fb656a375382f96feecd9b6bc043183f36ee0d9ea9ffa3a12e-qrcode_for_gh_671e52fa1e78_258.jpg)
 
 
 > **------至所有正在努力奋斗的程序猿们！加油！！**
-
 有码走遍天下 无码寸步难行
-
 1024 - 梦想，永不止步!
-
 爱编程 不爱Bug
 
 爱加班 不爱黑眼圈
