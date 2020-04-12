@@ -30,10 +30,10 @@ Version 2：Redission
 ![qrcode_for_gh_671e52fa1e78_258.jpg](https://pic.leetcode-cn.com/fa6a229fc23d58fb656a375382f96feecd9b6bc043183f36ee0d9ea9ffa3a12e-qrcode_for_gh_671e52fa1e78_258.jpg)
 
 
-> **------至所有正在努力奋斗的程序猿们！加油！！**
-有码走遍天下 无码寸步难行
-1024 - 梦想，永不止步!
-爱编程 不爱Bug
+> **------至所有正在努力奋斗的程序猿们！加油！！** 
+有码走遍天下 无码寸步难行 
+1024 - 梦想，永不止步! 
+爱编程 不爱Bug 
 
 爱加班 不爱黑眼圈
 
