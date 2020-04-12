@@ -1,7 +1,7 @@
 # Redis_Learning
 Redis Learning for Backend Development
 
-CSDN博客专栏：http://blog.csdn.net/column/details/18231.html
+CSDN博客专栏：https://blog.csdn.net/u011489043/category_9270877.html
 
 Version 1：Jedis
 
@@ -24,6 +24,10 @@ Version 1：Jedis
 Version 2：Redission
 
 2017/11/24 version 2.0 主要实现了Redission客户端下的一些分布式对象、分布式集合的简单操作，以及Redission和服务器连接的配置。
+
+如果您觉得写得还可以，那就来关注在下的微信公众号吧“张氏文画”，不光有新鲜的 LeetCode 题解（多种思路，包教包会，开拓思维），还有经典的文章及短视频和大家分享，谢谢大家的关注！！！
+![qrcode_for_gh_671e52fa1e78_258.jpg](https://pic.leetcode-cn.com/fa6a229fc23d58fb656a375382f96feecd9b6bc043183f36ee0d9ea9ffa3a12e-qrcode_for_gh_671e52fa1e78_258.jpg)
+
 
 > **------至所有正在努力奋斗的程序猿们！加油！！**
 
@@ -65,5 +69,3 @@ Version 2：Redission
 ——CSDN：https://blog.csdn.net/u011489043
 
 ——简书：https://www.jianshu.com/u/4968682d58d1
-
-——GitHub：https://github.com/selfconzrr
